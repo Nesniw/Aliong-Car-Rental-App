@@ -1,0 +1,92 @@
+{% extends 'layout.html' %}
+{% block content %}
+    
+    <section class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url('static/images/bg_3.jpg');" data-stellar-background-ratio="0.5">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-start">
+          <div class="col-md-9 ftco-animate pb-5">
+          	<p class="breadcrumbs"><span class="mr-2"><a href="/">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>Insert Car <i class="ion-ios-arrow-forward"></i></span></p>
+            <h1 class="mb-3 bread">Insert Car</h1>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-header">
+        {% for message in get_flashed_messages()%}
+    <div class="alert alert-info alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        {{ message }}
+    </div>
+        {% endfor%}
+    </section>
+
+    <section class="ftco-section contact-section">
+      <div class="container">
+        <div class="row d-flex mb-5 contact-info">
+        	<div class="col-md-4">
+        		<div class="row mb-5">
+		          
+		          <div class="col-md-12">
+		          	<div class="border w-100 p-4 rounded mb-2 d-flex">
+			            <p>Insert Your Car Data:</p>
+			          </div>
+		          </div>
+		        </div>
+          </div>
+          <div class="col-md-8 block-9 mb-md-5">
+            <form action="/createmobil" class="bg-light p-5 contact-form" method="POST" enctype="multipart/form-data">
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Nama Mobil" name="nama_mobil" required>
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Brand Mobil" name="brand_mobil" required>
+              </div>
+              <div class="form-group">
+                <input type="number" class="form-control" placeholder="Kilometer" name="kilometer" required>
+              </div>
+              <div class="form-group">
+                <select name="transmisi" class="form-control" required>
+                    <option value="" disabled selected>Transmisi</option>
+                    <option name="transmisi" value="Manual">Manual</option>
+                    <option name="transmisi" value="Matic">Matic</option>
+                    <option name="transmisi" value="Hybrid">Hybrid</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <select name="kapasitas_mobil" class="form-control" required>
+                    <option value="" disabled selected>Kapasitas Mobil</option>
+                    <option name="kapasitas_mobil" value="4 Seat">4 Seat</option>
+                    <option name="kapasitas_mobil" value="6 Seat">6 Seat</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <select name="jenis_bensin" class="form-control" required>
+                    <option value="" disabled selected>Jenis Bensin</option>
+                    <option name="jenis_bensin" value="Pertalite">Pertalite</option>
+                    <option name="jenis_bensin" value="Pertamax">Pertamax</option>
+                    <option name="jenis_bensin" value="Solar">Solar</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <input type="number" class="form-control" placeholder="Harga" name="harga" required>
+              </div>
+              <div class="form-group">
+                <textarea name="deskripsi" id="" cols="30" rows="7" class="form-control" placeholder="Deskripsi" required></textarea>
+              </div>
+              <div class="form-group">
+                <label for="img">Pilih Gambar :</label><br>
+                <input type="file" id="img" name="file1" accept="image/*" required>
+              </div>
+              <div class="form-group">
+                <input type="submit" value="Simpan Data Mobil" class="btn btn-primary py-3 px-5" required>
+              </div>
+            </form>
+          
+          </div>
+        </div>
+      </div>
+    </section>
+	
+{% endblock %}

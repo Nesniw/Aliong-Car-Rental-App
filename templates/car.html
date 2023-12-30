@@ -1,0 +1,123 @@
+{% extends 'layout.html' %}
+{% block content %}
+    
+    <section class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url('static/images/bg_3.jpg');" data-stellar-background-ratio="0.5">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-start">
+          <div class="col-md-9 ftco-animate pb-5">
+          	<p class="breadcrumbs"><span class="mr-2"><a href="/">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>Cars <i class="ion-ios-arrow-forward"></i></span></p>
+            <h1 class="mb-3 bread">Choose Your Car</h1>
+          </div>
+        </div>
+      </div>
+    </section>
+
+	<section class="content-header">
+        {% for message in get_flashed_messages()%}
+    <div class="alert alert-info alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        {{ message }}
+    </div>
+        {% endfor%}
+    </section>
+		
+		<section class="ftco-section bg-light">
+			<div class="container">
+				<div class="row">
+					{% for row in data %}
+					<div class="col-md-4">
+						<div class="car-wrap rounded ftco-animate">
+							<div class="img rounded d-flex align-items-end">
+								<img src="{{ url_for('static', filename='upload_images/' ~ row[1]) }}" alt="Car Image" width="100%" height="100%">
+							</div>
+							<div class="text">
+								<h2 class="mb-0"><a href="#">{{ row[2] }}</a></h2>
+								<div class="d-flex mb-3">
+									<span class="cat">{{ row[3] }}</span>
+									<p class="price ml-auto">Rp{{ row[8] }} <span>/day</span></p>
+								</div>
+								<p class="d-flex mb-0 d-block">
+									<a href="/editmobil/{{ row[0] }}" class="btn btn-secondary py-2 mr-1">Update</a>
+									<a href="/deletemobil/{{ row [0] }}" class="btn btn-danger py-2 ml-1">Delete</a>
+									<a href="/details/{{ row[0] }}" class="btn btn-primary py-2 ml-1">Details</a>
+								</p>
+							</div>
+						</div>
+					</div>
+					{% endfor %}
+				</div>
+			</div>
+		</section>
+		
+		<section class="ftco-section bg-light">
+    		<div class="container">
+				<h1 class="text-center text-primary p-4">Tabel Data Mobil</h1>
+				<div class="table-responsive">
+					<table class="table table-bordered">
+					 <thead>
+					  <tr class="table-primary">
+						 <th class="text-center">Id</th>
+						 <th class="text-center">Gambar</th>   
+						 <th class="text-center">Nama Mobil</th>         
+						 <th class="text-center">Brand Mobil</th>
+						 <th class="text-center">Kilometer</th>         
+						 <th class="text-center">Transmisi</th>
+						 <th class="text-center">Kapasitas Mobil</th>      
+						 <th class="text-center">Jenis Bensin</th>
+						 <th class="text-center">Harga</th> 
+						 <th class="text-center">Deskripsi</th>  
+						 <th class="text-center">Action</th>  
+					  </tr>
+					 </thead>
+					 <tbody>
+					  {% if data|length == 0 %}
+					  <b>No entries has been inserted</b>
+					  {% else %}
+					  {% for row in data %}
+					  <tr>
+						 <td class="text-center">{{row[0]}}</td>   
+						 <td class="text-center">
+							<img src="{{ url_for('static', filename='upload_images/' ~ row[1]) }}" alt="Car Image" width="100">
+						 </td>   
+						 <td class="text-center">{{row[2]}}</td>
+						 <td class="text-center">{{row[3]}}</td>   
+						 <td class="text-center">{{row[4]}}</td>
+						 <td class="text-center">{{row[5]}}</td>
+						 <td class="text-center">{{row[6]}}</td>
+						 <td class="text-center">{{row[7]}}</td>
+						 <td class="text-center">{{row[8]}}</td>
+						 <td class="text-center">{{row[9]}}</td>
+
+						 <td class="text-center">
+							<a href='/editmobil/{{row[0]}}'>Edit </a>|
+							<a href='/deletemobil/{{row[0]}}'>Hapus</a>
+						 </td>
+					  </tr>
+					  {% endfor %}
+					  {% endif %}
+				 
+					 </tbody>
+					</table>
+				  </div>
+    		</div>
+			
+    		<div class="row mt-5">
+          <div class="col text-center">
+            <div class="block-27">
+              <ul>
+                <li><a href="#">&lt;</a></li>
+                <li class="active"><span>1</span></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#">4</a></li>
+                <li><a href="#">5</a></li>
+                <li><a href="#">&gt;</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+    	</div>
+    </section>
+    
+{% endblock %}

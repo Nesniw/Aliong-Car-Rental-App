@@ -1,0 +1,94 @@
+{% extends 'layout.html' %}
+{% block content %}
+    
+    <section class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url('static/images/bg_3.jpg');" data-stellar-background-ratio="0.5">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-start">
+          <div class="col-md-9 ftco-animate pb-5">
+          	<p class="breadcrumbs"><span class="mr-2"><a href="/">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>Update Car <i class="ion-ios-arrow-forward"></i></span></p>
+            <h1 class="mb-3 bread">Update Car</h1>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-header">
+        {% for message in get_flashed_messages()%}
+    <div class="alert alert-info alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        {{ message }}
+    </div>
+        {% endfor%}
+    </section>
+
+    <section class="ftco-section contact-section">
+      <div class="container">
+        <div class="row d-flex mb-5 contact-info">
+        	<div class="col-md-4">
+        		<div class="row mb-5">
+		          
+		          <div class="col-md-12">
+		          	<div class="border w-100 p-4 rounded mb-2 d-flex">
+			            <p>Update Your Car Data:</p>
+			          </div>
+		          </div>
+		        </div>
+          </div>
+          <div class="col-md-8 block-9 mb-md-5">
+            {% for row in data_mobil %}
+            <form action="/edit" class="bg-light p-5 contact-form" method="POST" enctype="multipart/form-data">
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Nama Mobil" name="nama_mobil" value="{{row[2]}}" required>
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Brand Mobil" name="brand_mobil" value="{{row[3]}}" required>
+              </div>
+              <div class="form-group">
+                <input type="number" class="form-control" placeholder="Kilometer" name="kilometer" value="{{row[4]}}" required>
+              </div>
+              <div class="form-group">
+                <select name="transmisi" class="form-control" required>
+                    <option value="" disabled>Transmisi</option>
+                    <option name="transmisi" value="Manual" {% if row[5] == 'Manual' %} selected {% endif %}>Manual</option>
+                    <option name="transmisi" value="Matic" {% if row[5] == 'Matic' %} selected {% endif %}>Matic</option>
+                    <option name="transmisi" value="Hybrid" {% if row[5] == 'Hybrid' %} selected {% endif %}>Hybrid</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <select name="kapasitas_mobil" class="form-control" required>
+                    <option value="" disabled>Kapasitas Mobil</option>
+                    <option name="kapasitas_mobil" value="4 Seat" {% if row[6] == '4 Seat' %} selected {% endif %}>4 Seat</option>
+                    <option name="kapasitas_mobil" value="6 Seat" {% if row[6] == '6 Seat' %} selected {% endif %}>6 Seat</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <select name="jenis_bensin" class="form-control" required>
+                    <option value="" disabled>Jenis Bensin</option>
+                    <option name="jenis_bensin" value="Pertalite" {% if row[7] == 'Pertalite' %} selected {% endif %}>Pertalite</option>
+                    <option name="jenis_bensin" value="Pertamax" {% if row[7] == 'Pertamax' %} selected {% endif %}>Pertamax</option>
+                    <option name="jenis_bensin" value="Solar" {% if row[7] == 'Solar' %} selected {% endif %}>Solar</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <input type="number" class="form-control" placeholder="Harga" name="harga" value="{{row[8]}}" required>
+              </div>
+              <div class="form-group">
+                <textarea name="deskripsi" cols="30" rows="7" class="form-control" placeholder="Deskripsi"  required>{{row[9]}}</textarea>
+              </div>
+              <div class="form-group">
+                <label for="img">Pilih Gambar :</label><br>
+                <input type="file" id="img" name="file1" accept="image/*" value="{{row[1]}}" required>
+              </div>
+              {% endfor %}
+              <div class="form-group">
+                <input type="submit" value="Update Data Mobil" class="btn btn-primary py-3 px-5" required>
+              </div>
+            </form>
+          
+          </div>
+        </div>
+      </div>
+    </section>
+	
+{% endblock %}
