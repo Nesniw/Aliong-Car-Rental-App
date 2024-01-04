@@ -25,122 +25,115 @@
     <link rel="stylesheet" href="static/css/flaticon.css">
     <link rel="stylesheet" href="static/css/icomoon.css">
     <link rel="stylesheet" href="static/css/style.css">
-
-    <style>
-        .nav-item.dropdown:hover .dropdown-menu {
-            display: block;
-        }
-        .dropdown-item:hover {
-            background-color: #01d28e; /* Change the color as per your preference */
-        }
-    </style>
   </head>
 
-  <body>    
-	  <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light text-center" id="ftco-navbar">
-	    <div class="container justify-content-center">
-	      <a class="navbar-brand" href="/">Aliong <span>Car</span>Book</a>
-	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-	        <span class="oi oi-menu"></span> Menu
-	      </button>
-      </div>
+  <body>   
+    <style>
+    .navbar-nav li {
+        margin-left: 15px; /* Adjust the margin as needed for spacing */
+    }
+    </style>
 
-      <div class="container-fluid">
-	      <div class="collapse navbar-collapse" id="ftco-nav">
-	        <ul class="navbar-nav">
+    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-dark py-4" id="ftco-navbar">
+        <div class="container justify-content-center">
+            <a class="navbar-brand" href="/">Aliong <span>Car</span>Book</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="oi oi-menu"></span> Menu
+            </button>
+        </div>
+
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="ftco-nav">
+            <ul class="navbar-nav">
 
             {% if homeactive == True %}
-              <li class="nav-item active">
+                <li class="nav-item active">
             {% else %}
-              <li class="nav-item">
+                <li class="nav-item">
             {% endif %}
-	          <a href="/" class="nav-link">Home</a></li>
+                <a href="/" class="nav-link">Home</a></li>
             
             {% if aboutactive == True %}
-              <li class="nav-item active">
+                <li class="nav-item active">
             {% else %}
-              <li class="nav-item">
+                <li class="nav-item">
             {% endif %}
-	          <a href="about" class="nav-link">About</a></li>
+                <a href="about" class="nav-link">About</a></li>
 
 
             {% if servicesactive == True %}
-              <li class="nav-item active">
+                <li class="nav-item active">
             {% else %}
-              <li class="nav-item">
+                <li class="nav-item">
             {% endif %}
-	          <a href="services" class="nav-link">Services</a></li>
+                <a href="services" class="nav-link">Services</a></li>
             
             {% if caractive == True %}
-              <li class="nav-item active">
+                <li class="nav-item active">
             {% else %}
-              <li class="nav-item">
+                <li class="nav-item">
             {% endif %}
-	          <a href="readcatalog" class="nav-link">Cars</a></li>
-              
+                <a href="readcatalog" class="nav-link">Cars</a></li>
+                
             {% if contactactive == True %}
-              <li class="nav-item active">
+                <li class="nav-item active">
             {% else %}
-              <li class="nav-item">
+                <li class="nav-item">
             {% endif %}
-	          <a href="contact" class="nav-link">Contact</a></li>
+                <a href="contact" class="nav-link">Contact</a></li>
 
             
             {% if session.username and session.roles == 'Admin' %}
-              {% if managecaractive == True %}
-                  <li class="nav-item dropdown active">
-              {% else %}
-                  <li class="nav-item dropdown">
-              {% endif %}
-                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownCars" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Manage Cars Data
-                  </a>
-                  <div class="dropdown-menu" aria-labelledby="navbarDropdownCars">
-                      <a class="dropdown-item" href="displaycardata">Display Cars</a>
-                      <a class="dropdown-item" href="createmobil">Insert Car</a>
-                  </div>
-              </li>
+                {% if managecaractive == True %}
+                    <li class="nav-item dropdown active">
+                {% else %}
+                    <li class="nav-item dropdown">
+                {% endif %}
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownCars" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Manage Cars Data
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownCars">
+                        <a class="dropdown-item" href="displaycardata">Display Cars</a>
+                        <a class="dropdown-item" href="createmobil">Insert Car</a>
+                    </div>
+                </li>
 
-              {% if carbookactive == True %}
-                  <li class="nav-item dropdown active">
-              {% else %}
-                  <li class="nav-item dropdown">
-              {% endif %}
-                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownCars" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Car Book
-                  </a>
-                  <div class="dropdown-menu" aria-labelledby="navbarDropdownCars">
-                      <a class="dropdown-item" href="confirmreturn">Confirmation Car Return</a>
-                      <a class="dropdown-item" href="#">Booking History</a>
-                  </div>
-              </li>
+                {% if carbookactive == True %}
+                    <li class="nav-item dropdown active">
+                {% else %}
+                    <li class="nav-item dropdown">
+                {% endif %}
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownCars" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Car Book
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownCars">
+                        <a class="dropdown-item" href="confirmreturn">Confirmation Car Return</a>
+                        <a class="dropdown-item" href="#">Booking History</a>
+                    </div>
+                </li>
             {% endif %}
 
-	        </ul>
-	      </div>
-      </div>
+            </ul>
+            </div>
+        </div>
 
         
-      <div class="container justify-content-center text-center">
+        <div class="container justify-content-center text-center">
         {% if session.username %}
-          <h6 class="bg-dark aqua py-3 px-3 mb-0 rounded">
+            <h6 class="bg-dark aqua py-3 px-3 mb-0 rounded">
             Welcome, {{session.username}} <br>
             <a href="/logout" class="btn btn-danger mt-2">
-              LOGOUT
+                LOGOUT
             </a>
-          </h6>
+            </h6>
         {% else %}
-          <a class="navbar-brand btn btn-success" href="login">Login</a>
-          <a class="navbar-brand btn btn-primary" href="register">Register</a>
+            <a class="navbar-brand btn btn-success" href="login">Login</a>
+            <a class="navbar-brand btn btn-primary" href="register">Register</a>
         {% endif %}
-      </div>          
-        
-	    
-	  </nav>
-    <!-- END nav -->
+        </div>      
+    </nav>
 
     {% block content %}
-
 
 
     {% endblock %}

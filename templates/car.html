@@ -13,7 +13,7 @@
       </div>
     </section>
 
-	<section class="content-header">
+	<section class="content-header mt-3 mx-5">
         {% for message in get_flashed_messages()%}
     <div class="alert alert-info alert-dismissible">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -38,8 +38,9 @@
 									<p class="price ml-auto">Rp{{ row[8] }} <span>/day</span></p>
 								</div>
 								<p class="d-flex mb-0 d-block">
-									<a href="/editmobil/{{ row[0] }}" class="btn btn-secondary py-2 mr-1">Update</a>
-									<a href="/deletemobil/{{ row [0] }}" class="btn btn-danger py-2 ml-1">Delete</a>
+									{% if session.username and session.roles == 'Customer' %}
+									<a href="/pilihmobil/{{ row[0] }}" class="btn btn-secondary py-2 mr-1">Book Car</a>
+									{% endif %}
 									<a href="/details/{{ row[0] }}" class="btn btn-primary py-2 ml-1">Details</a>
 								</p>
 							</div>
@@ -49,75 +50,5 @@
 				</div>
 			</div>
 		</section>
-		
-		<section class="ftco-section bg-light">
-    		<div class="container">
-				<h1 class="text-center text-primary p-4">Tabel Data Mobil</h1>
-				<div class="table-responsive">
-					<table class="table table-bordered">
-					 <thead>
-					  <tr class="table-primary">
-						 <th class="text-center">Id</th>
-						 <th class="text-center">Gambar</th>   
-						 <th class="text-center">Nama Mobil</th>         
-						 <th class="text-center">Brand Mobil</th>
-						 <th class="text-center">Kilometer</th>         
-						 <th class="text-center">Transmisi</th>
-						 <th class="text-center">Kapasitas Mobil</th>      
-						 <th class="text-center">Jenis Bensin</th>
-						 <th class="text-center">Harga</th> 
-						 <th class="text-center">Deskripsi</th>  
-						 <th class="text-center">Action</th>  
-					  </tr>
-					 </thead>
-					 <tbody>
-					  {% if data|length == 0 %}
-					  <b>No entries has been inserted</b>
-					  {% else %}
-					  {% for row in data %}
-					  <tr>
-						 <td class="text-center">{{row[0]}}</td>   
-						 <td class="text-center">
-							<img src="{{ url_for('static', filename='upload_images/' ~ row[1]) }}" alt="Car Image" width="100">
-						 </td>   
-						 <td class="text-center">{{row[2]}}</td>
-						 <td class="text-center">{{row[3]}}</td>   
-						 <td class="text-center">{{row[4]}}</td>
-						 <td class="text-center">{{row[5]}}</td>
-						 <td class="text-center">{{row[6]}}</td>
-						 <td class="text-center">{{row[7]}}</td>
-						 <td class="text-center">{{row[8]}}</td>
-						 <td class="text-center">{{row[9]}}</td>
-
-						 <td class="text-center">
-							<a href='/editmobil/{{row[0]}}'>Edit </a>|
-							<a href='/deletemobil/{{row[0]}}'>Hapus</a>
-						 </td>
-					  </tr>
-					  {% endfor %}
-					  {% endif %}
-				 
-					 </tbody>
-					</table>
-				  </div>
-    		</div>
-			
-    		<div class="row mt-5">
-          <div class="col text-center">
-            <div class="block-27">
-              <ul>
-                <li><a href="#">&lt;</a></li>
-                <li class="active"><span>1</span></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">4</a></li>
-                <li><a href="#">5</a></li>
-                <li><a href="#">&gt;</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-    	</div>
-    </section>
     
 {% endblock %}

@@ -1,5 +1,8 @@
 import os
+import logging
+logging.basicConfig(level=logging.DEBUG)
 from flask import Flask, render_template, request, flash, redirect, session
+from datetime import date, datetime, timedelta
 app = Flask(__name__)
 from model import Database
 app.secret_key = '@#$123456&*()'
@@ -10,6 +13,51 @@ db = Database()
 def index():
 
     return render_template('index.html', homeactive=True)
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        if request.form['password'] == request.form['konfirmasi']:
+            if db.checkuser(request.form):
+                if db.tambahuser(request.form):
+                    flash('Akun berhasil dibuat. Silahkan login.')
+                    return redirect('/login')
+                else:
+                    flash('Akun gagal dibuat. Tolong ulangi registrasi')
+                    return redirect('/register')
+            else:
+                flash('Username yang dimasukkan sudah terdaftar, coba buat username lain')
+                return redirect('/register')
+        else:
+            flash('Password yang Anda masukan tidak cocok')
+            return redirect('/register')
+
+    return render_template('register.html')
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        if db.checklogin(request.form):
+            username = request.form['username']
+
+            user_role = db.get_user_role(username)
+
+            session['username'] = username
+            session['roles'] = user_role
+
+            return redirect('/')
+        else:
+            flash('Username atau Password salah')
+            return redirect('/login')
+        
+    return render_template('login.html')
+
+
+
+@app.route('/logout')
+def logout():
+    session.pop('username', None)
+    return redirect('/')
 
 @app.route('/about')
 def about():
@@ -38,6 +86,11 @@ def detailcar():
     id = session['idmobil']
     data_mobil = db.read(id)
     return render_template('detailcar.html', caractive=True, data_mobil=data_mobil)
+
+@app.route('/displaycardata')
+def displaycardata():
+    data = db.read(None)
+    return render_template('datacar.html', managecaractive = True, data=data)
 
 
 @app.route('/createmobil', methods=['GET', 'POST'])
@@ -78,12 +131,12 @@ def createmobil():
                 else:
                     flash("Data gagal dimasukkan")
 
-    return render_template('creatembl.html', createactive=True)
+    return render_template('creatembl.html', managecaractive=True)
 
 @app.route('/readcatalog')
 def readcatalog():
-    data = db.read(None)
-    return render_template('car.html', caractive = True, data=data)
+    data = db.read_available_cars()
+    return render_template('car.html', caractive=True, data=data)
 
 @app.route('/deletemobil/<int:id>')
 def deletemobil(id):
@@ -178,6 +231,64 @@ def loginpage():
         return render_template('loginSuccess.html', firstname=firstname, lastname=lastname, email=email, password=password)
 
     return render_template('loginPage.html')
+
+@app.route('/pilihmobil/<int:id>')
+def pilihmobil(id):
+    session['idmobil'] = id
+    return redirect('/booking')
+
+@app.route('/booking', methods=['GET','POST'])
+def pinjam():
+    if request.method == 'POST':
+        try:
+            # Ambil data dari formulir
+            tanggalpinjam = request.form['tanggalpinjam']
+            lamapinjam = int(request.form['lamapinjam'])  # Pastikan lamapinjam diubah menjadi integer
+
+            # Ambil informasi mobil yang dipilih
+            id_mobil = session.get('idmobil')  # Ambil id mobil dari session
+
+            # Lakukan proses booking
+            success, estimasikembali = db.book_car(id_mobil, session['username'], tanggalpinjam, lamapinjam)
+
+            if success:
+                flash(f'Booking berhasil! Mobil dapat diambil pada tanggal {tanggalpinjam} dan dikembalikan pada tanggal {estimasikembali}')
+                return redirect('/readcatalog')
+            else:
+                flash(f'Booking gagal. {estimasikembali}')
+                return redirect('/readcatalog')
+
+        except Exception as e:
+            flash(f'Error: {str(e)}')
+            return redirect('/readcatalog')
+        
+    # Calculate the maximum date (today + 5 days)
+    max_date = (datetime.now() + timedelta(days=5)).strftime('%Y-%m-%d')
+
+    # Jika metode adalah GET, tampilkan halaman pilihan mobil dengan formulir booking
+    return render_template('bookcar.html', min_date_today=date.today(), max_date=max_date)
+
+
+@app.route('/confirmreturn')
+def confirmreturn():
+    
+    konfirmasi_booking = db.read_konfirmasi_booking()
+    return render_template('confirm-return.html', carbookactive=True, konfirmasi_booking=konfirmasi_booking)
+
+@app.route('/complete_booking/<int:id_booking>')
+def complete_booking(id_booking):
+
+    success = db.update_booking(id_booking)
+
+    if success:
+        logging.info(f'Successfully completed booking with ID: {id_booking}')
+        flash(f'Pengembalian mobil dengan ID Booking  {id_booking} telah dikonfirmasi.')
+    else:
+        logging.error('Failed to complete booking.')
+        flash('Failed to complete booking.')
+
+    return redirect('/confirmreturn')
+
 
 if __name__ == '__main__':
     app.run(debug = True)

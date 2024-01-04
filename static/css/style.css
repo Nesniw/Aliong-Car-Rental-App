@@ -9950,3 +9950,30 @@ textarea.form-control {
   100% {
     stroke-dasharray: 89, 200;
     stroke-dashoffset: -136px; } }
+
+.gray {
+  background-color: lightgray;
+}
+
+.aqua{
+  color: aquamarine;
+}
+
+.login-form {
+  background-color: #343a40; /* Adjust the transparency by modifying the last parameter (0.7 in this example) */
+  padding: 20px;
+  border-radius: 10px;
+  color: white; /* Set text color to white or a contrasting color */
+}
+
+/* Adjust the text color and other styles as needed */
+.detail-box {
+  color: white;
+}
+
+/* If needed, add styles to make the form inputs visible on the dark background */
+.login-form input,
+.login-form select,
+.login-form textarea {
+  color: white;
+}
