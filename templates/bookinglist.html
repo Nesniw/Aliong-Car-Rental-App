@@ -1,0 +1,58 @@
+{% extends 'secondlayout.html' %}
+{% block content %}
+
+<section class="content-header mt-3 mx-5">
+    {% for message in get_flashed_messages()%}
+<div class="alert alert-info alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    {{ message }}
+</div>
+    {% endfor%}
+</section>
+    
+<section class="ftco-section bg-light">
+    <div class="mx-5">
+        <h2 class="text-center text-success pb-4">Booking / Transaction List</h2>
+
+        <table class="table table-bordered">
+            <thead class="text-center">
+                <th>No.</th>
+                <th>ID Booking</th>
+                <th>ID Mobil</th>
+                <th>Username</th>
+                <th>Tanggal Pinjam</th>
+                <th>Lama Pinjam</th>
+                <th>Estimasi Kembali</th>
+                <th>Tanggal Kembali</th>
+                <th width="120px">Harga per hari</th>
+                <th width="120px">Denda</th>
+                <th width="120px">Total Biaya</th>
+                <th>Status Booking</th>
+            </thead>
+            {% if data %}
+                {% for bookinglist in data %}
+                <tr class="text-center">
+                    <td>{{ loop.index }}</td>
+                    <td>{{ bookinglist[0] }}</td>
+                    <td>{{ bookinglist[1] }}</td>
+                    <td>{{ bookinglist[2] }}</td>
+                    <td>{{ bookinglist[3] }}</td>
+                    <td>{{ bookinglist[4] }} hari</td>
+                    <td>{{ bookinglist[5] }}</td>
+                    <td>{{ bookinglist[6] }}</td>
+                    <td>Rp {{ bookinglist[7] }}</td>
+                    <td>Rp {{ bookinglist[8] }}</td>
+                    <td>Rp {{ bookinglist[9] }}</td>
+                    <td>{{ bookinglist[10] }}</td>
+                </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="10" class="text-center text-danger"><b>Anda belum memiliki transaksi / booking.</b></td>
+                </tr>
+            {% endif %}
+        </table>
+    </div>
+</section>
+
+{% endblock %}

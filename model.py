@@ -224,6 +224,30 @@ class Database:
             return False, str(e)
         finally:
             con.close()
+
+    def read_mybooking(self, username):
+        con = Database.connect(self)
+        cursor = con.cursor()
+        try:
+            cursor.execute("SELECT * FROM booking_mobil WHERE username = %s", (username,))
+            return cursor.fetchall()
+        except Exception as e:
+            print("Error:", e)
+            return ()
+        finally:
+            con.close()
+
+    def read_bookinglist(self):
+        con = Database.connect(self)
+        cursor = con.cursor()
+        try:
+            cursor.execute("SELECT * FROM booking_mobil")
+            return cursor.fetchall()
+        except Exception as e:
+            print("Error:", e)
+            return ()
+        finally:
+            con.close()
             
             
     

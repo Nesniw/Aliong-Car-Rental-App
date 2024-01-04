@@ -289,6 +289,20 @@ def complete_booking(id_booking):
 
     return redirect('/confirmreturn')
 
+@app.route('/mybooking')
+def mybooking():
+
+    username = session.get('username')  
+    data = db.read_mybooking(username)
+
+    return render_template('mybooking.html', mybookingactive=True, data=data)
+
+@app.route('/bookinglist')
+def bookinglist():
+
+    data = db.read_bookinglist()
+
+    return render_template('bookinglist.html', carbookactive=True, data=data)
 
 if __name__ == '__main__':
     app.run(debug = True)

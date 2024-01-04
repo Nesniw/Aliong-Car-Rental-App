@@ -1,0 +1,54 @@
+{% extends 'secondlayout.html' %}
+{% block content %}
+
+<section class="content-header mt-3 mx-5">
+    {% for message in get_flashed_messages()%}
+<div class="alert alert-info alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    {{ message }}
+</div>
+    {% endfor%}
+</section>
+    
+<section class="ftco-section bg-light">
+    <div class="container">
+        <h2 class="text-center text-success pb-4">My Booking</h2>
+
+        <table class="table table-bordered">
+            <thead class="text-center">
+                <th>No.</th>
+                <th>ID Booking</th>
+                <th>ID Mobil</th>
+                <th>Tanggal Pinjam</th>
+                <th>Lama Pinjam</th>
+                <th>Tanggal Kembali</th>
+                <th width="120px">Harga per hari</th>
+                <th width="120px">Denda</th>
+                <th width="120px">Total Biaya</th>
+                <th>Status Booking</th>
+            </thead>
+            {% if data %}
+                {% for mybooking in data %}
+                <tr class="text-center">
+                    <td>{{ loop.index }}</td>
+                    <td>{{ mybooking[0] }}</td>
+                    <td>{{ mybooking[1] }}</td>
+                    <td>{{ mybooking[3] }}</td>
+                    <td>{{ mybooking[4] }} hari</td>
+                    <td>{{ mybooking[6] }}</td>
+                    <td>Rp {{ mybooking[7] }}</td>
+                    <td>Rp {{ mybooking[8] }}</td>
+                    <td>Rp {{ mybooking[9] }}</td>
+                    <td>{{ mybooking[10] }}</td>
+                </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="10" class="text-center text-danger"><b>Anda belum memiliki transaksi / booking.</b></td>
+                </tr>
+            {% endif %}
+        </table>
+    </div>
+</section>
+
+{% endblock %}
