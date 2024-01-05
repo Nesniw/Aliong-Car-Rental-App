@@ -1,0 +1,72 @@
+{% extends 'secondlayout.html' %}
+{% block content %}
+
+<section class="content-header mt-3 mx-5">
+    {% for message in get_flashed_messages()%}
+<div class="alert alert-info alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    {{ message }}
+</div>
+    {% endfor%}
+</section>
+    
+<section class="my-5 bg-light">
+    <div class="mx-5">
+        <div class="row mb-4">
+            <div class="col-12 text-center">
+                <h1 class="text-primary my-auto"><b>NEWSLETTER</b></h1>
+            </div>
+        </div>
+        <form action="/emailblast" method="post">
+            <div class="row justify-content-center">
+                <div class="col-4">
+                    <div class="card">
+                        <div class="card-header bg-success">
+                            <h3 class="text-light my-auto"><b>Sender</b></h3>
+                        </div>
+                        <div class="card-body grays">
+                            <div class="form-group">
+                                <label for="email">Email User</label>
+                                {% for row in emailuser %}
+                                <input type="email" class="form-control" name='email' value='{{row[1]}}' readonly>
+                                {% endfor %}
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" class="form-control" name='password'>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="card">
+                        <div class="card-header bg-primary">
+                            <h3 class="text-light my-auto"><b>Recipient</b></h3>
+                        </div>
+                        <div class="card-body grays">
+                            <div class="form-group">
+                                <select class="form-control" name="recipient" required>
+                                    <option selected value="Semua Customer">All Customer</option>
+                                    {% for row in alluser %}
+                                        <option value= "{{row[1]}}">{{row[1]}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" name='subject' placeholder="Subject" required>
+                            </div> 
+                            <div class="form-group">
+                                <textarea class="form-control" rows="5" cols="50" name='message' placeholder="Message" required></textarea>
+                            </div>
+                            <div class="text-center mt-4 mb-2">
+                                <button type="submit" class="btn btn-primary">Send Newsletter</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+{% endblock %}

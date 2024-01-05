@@ -9977,3 +9977,7 @@ textarea.form-control {
 .login-form textarea {
   color: white;
 }
+
+.grays{
+  background-color: whitesmoke;
+}

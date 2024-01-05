@@ -230,18 +230,6 @@ def edit():
     return render_template('edit.html', data_mobil=data_mobil)
 
 
-# Belum kepakai nanti tunggu UAS
-@app.route('/loginpage', methods=['GET', 'POST'])
-def loginpage():
-    if request.method == 'POST':
-        firstname = request.form['firstname']
-        lastname = request.form['lastname']
-        email = request.form['email']
-        password = request.form['password']
-
-        return render_template('loginSuccess.html', firstname=firstname, lastname=lastname, email=email, password=password)
-
-    return render_template('loginPage.html')
 
 @app.route('/pilihmobil/<int:id>')
 def pilihmobil(id):
@@ -254,12 +242,11 @@ def pinjam():
         try:
             # Ambil data dari formulir
             tanggalpinjam = request.form['tanggalpinjam']
-            lamapinjam = int(request.form['lamapinjam'])  # Pastikan lamapinjam diubah menjadi integer
+            lamapinjam = int(request.form['lamapinjam'])  
 
             # Ambil informasi mobil yang dipilih
-            id_mobil = session.get('idmobil')  # Ambil id mobil dari session
+            id_mobil = session.get('idmobil')  
 
-            # Lakukan proses booking
             success, estimasikembali = db.book_car(id_mobil, session['username'], tanggalpinjam, lamapinjam)
 
             if success:
@@ -273,10 +260,8 @@ def pinjam():
             flash(f'Error: {str(e)}')
             return redirect('/readcatalog')
         
-    # Calculate the maximum date (today + 5 days)
     max_date = (datetime.now() + timedelta(days=5)).strftime('%Y-%m-%d')
 
-    # Jika metode adalah GET, tampilkan halaman pilihan mobil dengan formulir booking
     return render_template('bookcar.html', min_date_today=date.today(), max_date=max_date)
 
 
@@ -318,12 +303,10 @@ def bookinglist():
         start_date = request.form['start_date']
         end_date = request.form['end_date']
 
-        # Panggil metode statis get_filtered_data dari Database
         filtered_data = db.get_filtered_data(start_date, end_date)
 
         return render_template('bookinglist.html', data=filtered_data, start_date=start_date, end_date=end_date)
     
-    # Dapatkan bulan saat ini
     current_month = datetime.now().month
 
     # Hitung jumlah orang dan total pendapatan
@@ -344,7 +327,7 @@ def generate_pdf_route():
         # Filter data jika start_date dan end_date ada
         filtered_data = db.get_filtered_data(start_date, end_date)
     else:
-        # Jika tidak ada filter, dapatkan seluruh data
+        # Jika tidak ada filter, berarti ambil seluruh data
         filtered_data = db.read_bookinglist()
 
     # Generate PDF
@@ -352,24 +335,46 @@ def generate_pdf_route():
 
     return send_file(pdf_filename, as_attachment=True)
 
-@app.route('/send_email_blast')
-def send_email_blast():
+@app.route('/emailblast', methods=['GET', 'POST'])
+def emailblast():
+    alluser = db.readuser(None)
+    emailuser = db.readuser(session['username'])
 
-    recipients = ['email1@example.com', 'email2@example.com']
-    subject = 'Subject of the Email'
-    
-    for recipient in recipients:
-        msg = Message(subject, recipients=[recipient])
-        msg.html = render_template('email_template.html', username='John Doe', link='https://example.com')
-        mail.send(msg)
-    
-    return 'Email blast sent successfully!'
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        to = request.form['recipient']
+        subject = request.form['subject']
+        message = request.form['message']
+        app.config['MAIL_USERNAME'] = email
+        app.config['MAIL_PASSWORD'] = password
 
-# Fungsi filter untuk format uang
+        if to == 'Semua Customer':
+            allemail=[]
+            for i in alluser:
+                allemail.append(i[1])
+            pesan = Message(subject, sender=email, recipients=allemail)
+            pesan.body = message
+        else:
+            pesan = Message(subject, sender=email, recipients=[to])
+            pesan.body = message
+        try:
+            mail = Mail(app)
+            mail.connect()
+            mail.send(pesan)
+            flash('Email Berhasil Dikirim ke '+ to)
+            return redirect('/emailblast')
+        except:
+            flash('Email Gagal Dikirim ke '+ to)
+            return redirect('/emailblast')
+
+    return render_template('email_blast.html', carbookactive=True, alluser=alluser, emailuser=emailuser)
+
+
+
 def format_currency(value):
     return "{:,.0f}".format(value).replace(",", ".")
 
-# Mendaftarkan filter di aplikasi Flask
 app.jinja_env.filters['format'] = format_currency
 
 if __name__ == '__main__':

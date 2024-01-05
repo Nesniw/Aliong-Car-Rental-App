@@ -41,7 +41,7 @@ class Database:
             cursor.execute("SELECT gambar FROM data_mobil WHERE id_mobil = %s", (id,))
             result = cursor.fetchone()
             if result:
-                return result[0]  # Kembaliin filename dari gambar
+                return result[0]
             else:
                 return None
         except:
@@ -97,7 +97,7 @@ class Database:
             cursor.execute("SELECT roles FROM user WHERE username = %s", (username,))
             result = cursor.fetchone()
             if result:
-                return result[0]  # Return the user's role
+                return result[0] 
             else:
                 return None
         except:
@@ -244,8 +244,8 @@ class Database:
             cursor.execute("SELECT * FROM booking_mobil")
             return cursor.fetchall()
         except Exception as e:
-            print("Error:", e)
-            return ()
+            con.rollback()
+            return False, str(e)
         finally:
             con.close()
 
@@ -254,18 +254,16 @@ class Database:
         cursor = con.cursor()
 
         try:
-            # Gunakan parameterized query untuk menghindari SQL injection
+           
             query = "SELECT * FROM booking_mobil WHERE tanggalpinjam BETWEEN %s AND %s"
             cursor.execute(query, (start_date, end_date))
             
-            # Dapatkan data hasil query
             filtered_data = cursor.fetchall()
             return filtered_data
 
         except Exception as e:
-            # Handle exception sesuai kebutuhan
-            print("Error:", str(e))
-            return []
+            con.rollback()
+            return False, str(e)
 
         finally:
             con.close()
@@ -274,7 +272,7 @@ class Database:
         con = Database.connect(self)
         cursor = con.cursor()
         try:
-            # Query untuk menghitung total orang berdasarkan bulan dan status "Selesai"
+
             query = "SELECT COUNT(*) FROM booking_mobil WHERE MONTH(tanggalpinjam) = %s AND status_booking = 'Selesai'"
             cursor.execute(query, (month,))
             total_people = cursor.fetchone()[0]
@@ -282,9 +280,8 @@ class Database:
             return total_people if total_people is not None else 0
 
         except Exception as e:
-            # Handle exception sesuai kebutuhan
-            print("Error:", str(e))
-            return []
+            con.rollback()
+            return False, str(e)
 
         finally:
             con.close()
@@ -293,7 +290,7 @@ class Database:
         con = Database.connect(self)
         cursor = con.cursor()
         try:
-            # Query untuk menghitung total revenue berdasarkan bulan dan status "Selesai"
+
             query = "SELECT SUM(totalbiaya) FROM booking_mobil WHERE MONTH(tanggalpinjam) = %s AND status_booking = 'Selesai'"
             cursor.execute(query, (month,))
             total_revenue = cursor.fetchone()[0]
@@ -301,12 +298,24 @@ class Database:
             return total_revenue if total_revenue is not None else 0
 
         except Exception as e:
-            # Handle exception sesuai kebutuhan
-            print("Error:", str(e))
-            return []
+            con.rollback()
+            return False, str(e)
 
         finally:
             con.close()
             
+    def readuser(self, username):
+        con = Database.connect(self)
+        cursor = con.cursor()
+        try:
+            if username == None:
+                cursor.execute('SELECT * FROM user')
+            else:
+                cursor.execute('SELECT * FROM user WHERE username = %s',(username,))
+            return cursor.fetchall()
+        except:
+            return ()
+        finally:
+            con.close()
             
     
