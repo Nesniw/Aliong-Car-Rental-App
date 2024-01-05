@@ -1,13 +1,24 @@
 import os
 import logging
 logging.basicConfig(level=logging.DEBUG)
-from flask import Flask, render_template, request, flash, redirect, session
+from flask import Flask, render_template, request, flash, redirect, session, send_file
+from flask_mail import Mail, Message
+from pdf_generator import generate_pdf
 from datetime import date, datetime, timedelta
 app = Flask(__name__)
 from model import Database
 app.secret_key = '@#$123456&*()'
 app.config['UPLOAD_FOLDER'] = 'static/upload_images'
 db = Database()
+
+mail = Mail(app)
+
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False
+app.config['MAIL_USERNAME'] = 'winsenwiradinata@gmail.com'
+app.config['MAIL_PASSWORD'] = 'winsen123'
 
 @app.route('/')
 def index():
@@ -297,12 +308,69 @@ def mybooking():
 
     return render_template('mybooking.html', mybookingactive=True, data=data)
 
-@app.route('/bookinglist')
+@app.route('/bookinglist', methods=['GET', 'POST'])
 def bookinglist():
+    total_people = None
+    total_revenue = None
+
+    if request.method == 'POST':
+       
+        start_date = request.form['start_date']
+        end_date = request.form['end_date']
+
+        # Panggil metode statis get_filtered_data dari Database
+        filtered_data = db.get_filtered_data(start_date, end_date)
+
+        return render_template('bookinglist.html', data=filtered_data, start_date=start_date, end_date=end_date)
+    
+    # Dapatkan bulan saat ini
+    current_month = datetime.now().month
+
+    # Hitung jumlah orang dan total pendapatan
+    total_people = db.get_total_people_per_month(current_month)
+    total_revenue = db.get_total_revenue_per_month(current_month)
 
     data = db.read_bookinglist()
 
-    return render_template('bookinglist.html', carbookactive=True, data=data)
+    return render_template('bookinglist.html', carbookactive=True, data=data, total_people=total_people, total_revenue=total_revenue)
+
+@app.route('/generate_pdf', methods=['POST'])
+def generate_pdf_route():
+    
+    start_date = request.form.get('start_date', '')
+    end_date = request.form.get('end_date', '')
+
+    if start_date and end_date:
+        # Filter data jika start_date dan end_date ada
+        filtered_data = db.get_filtered_data(start_date, end_date)
+    else:
+        # Jika tidak ada filter, dapatkan seluruh data
+        filtered_data = db.read_bookinglist()
+
+    # Generate PDF
+    pdf_filename = generate_pdf(filtered_data)
+
+    return send_file(pdf_filename, as_attachment=True)
+
+@app.route('/send_email_blast')
+def send_email_blast():
+
+    recipients = ['email1@example.com', 'email2@example.com']
+    subject = 'Subject of the Email'
+    
+    for recipient in recipients:
+        msg = Message(subject, recipients=[recipient])
+        msg.html = render_template('email_template.html', username='John Doe', link='https://example.com')
+        mail.send(msg)
+    
+    return 'Email blast sent successfully!'
+
+# Fungsi filter untuk format uang
+def format_currency(value):
+    return "{:,.0f}".format(value).replace(",", ".")
+
+# Mendaftarkan filter di aplikasi Flask
+app.jinja_env.filters['format'] = format_currency
 
 if __name__ == '__main__':
     app.run(debug = True)

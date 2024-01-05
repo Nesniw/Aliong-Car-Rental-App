@@ -12,7 +12,7 @@
     
 <section class="ftco-section bg-light">
     <div class="container">
-        <h2 class="text-center text-success pb-4">My Booking</h2>
+        <h2 class="text-center text-success pb-4"><b>My Booking</b></h2>
 
         <table class="table table-bordered">
             <thead class="text-center">
@@ -36,9 +36,9 @@
                     <td>{{ mybooking[3] }}</td>
                     <td>{{ mybooking[4] }} hari</td>
                     <td>{{ mybooking[6] }}</td>
-                    <td>Rp {{ mybooking[7] }}</td>
-                    <td>Rp {{ mybooking[8] }}</td>
-                    <td>Rp {{ mybooking[9] }}</td>
+                    <td>Rp {{ mybooking[7]|format }}</td>
+                    <td>Rp {{ mybooking[8]|format }}</td>
+                    <td>Rp {{ mybooking[9]|format }}</td>
                     <td>{{ mybooking[10] }}</td>
                 </tr>
                 {% endfor %}

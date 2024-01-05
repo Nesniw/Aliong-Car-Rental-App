@@ -248,6 +248,65 @@ class Database:
             return ()
         finally:
             con.close()
+
+    def get_filtered_data(self, start_date, end_date):
+        con = Database.connect(self)
+        cursor = con.cursor()
+
+        try:
+            # Gunakan parameterized query untuk menghindari SQL injection
+            query = "SELECT * FROM booking_mobil WHERE tanggalpinjam BETWEEN %s AND %s"
+            cursor.execute(query, (start_date, end_date))
+            
+            # Dapatkan data hasil query
+            filtered_data = cursor.fetchall()
+            return filtered_data
+
+        except Exception as e:
+            # Handle exception sesuai kebutuhan
+            print("Error:", str(e))
+            return []
+
+        finally:
+            con.close()
+
+    def get_total_people_per_month(self, month):
+        con = Database.connect(self)
+        cursor = con.cursor()
+        try:
+            # Query untuk menghitung total orang berdasarkan bulan dan status "Selesai"
+            query = "SELECT COUNT(*) FROM booking_mobil WHERE MONTH(tanggalpinjam) = %s AND status_booking = 'Selesai'"
+            cursor.execute(query, (month,))
+            total_people = cursor.fetchone()[0]
+
+            return total_people if total_people is not None else 0
+
+        except Exception as e:
+            # Handle exception sesuai kebutuhan
+            print("Error:", str(e))
+            return []
+
+        finally:
+            con.close()
+
+    def get_total_revenue_per_month(self, month):
+        con = Database.connect(self)
+        cursor = con.cursor()
+        try:
+            # Query untuk menghitung total revenue berdasarkan bulan dan status "Selesai"
+            query = "SELECT SUM(totalbiaya) FROM booking_mobil WHERE MONTH(tanggalpinjam) = %s AND status_booking = 'Selesai'"
+            cursor.execute(query, (month,))
+            total_revenue = cursor.fetchone()[0]
+
+            return total_revenue if total_revenue is not None else 0
+
+        except Exception as e:
+            # Handle exception sesuai kebutuhan
+            print("Error:", str(e))
+            return []
+
+        finally:
+            con.close()
             
             
     

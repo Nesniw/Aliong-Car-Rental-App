@@ -35,7 +35,7 @@
 								<h2 class="mb-0"><a href="#">{{ row[2] }}</a></h2>
 								<div class="d-flex mb-3">
 									<span class="cat">{{ row[3] }}</span>
-									<p class="price ml-auto">Rp{{ row[8] }} <span>/day</span></p>
+									<p class="price ml-auto">Rp {{ row[8]|format }} <span>/day</span></p>
 								</div>
 								<p class="d-flex mb-0 d-block">
 									{% if session.username and session.roles == 'Customer' %}

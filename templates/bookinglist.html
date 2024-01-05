@@ -10,9 +10,55 @@
     {% endfor%}
 </section>
     
-<section class="ftco-section bg-light">
+<section class="my-5 bg-light">
     <div class="mx-5">
-        <h2 class="text-center text-success pb-4">Booking / Transaction List</h2>
+        <div class="text-justify my-5">
+            <div class="row">
+                <div class="col-6">
+                    <h4 class="my-auto"><b>Data Rekap Per Bulan</b></h4>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-6">
+                    <div class="container bg-success p-4 rounded">
+                        <h4 class="text-light my-auto"><b>Jumlah Booking Selesai : {{ total_people }}</b></h4>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="container bg-info p-4 rounded">
+                        <h4 class="text-light my-auto"><b>Total Pendapatan : Rp {{ total_revenue|format }}</b></h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <h2 class="text-center text-success pb-4"><b>Booking / Transaction List</b></h2>
+
+        <form action="bookinglist" method="post" class="mb-1">
+            <div class="row">
+                <div class="col">
+                    <label for="start_date">Tanggal Awal:</label>
+                    <input type="date" class="form-control" name="start_date" value="{{ start_date }}">
+                </div>
+                <div class="col">
+                    <label for="end_date">Tanggal Akhir:</label>
+                    <input type="date" class="form-control" name="end_date" value="{{ end_date }}">
+                </div>
+                <div class="col my-auto">
+                    <button type="submit" class="btn btn-primary mt-4">Filter</button>
+                </div>
+            </div>
+        </form>
+
+        <form action="/generate_pdf" method="post" class="mb-4">
+            <div class="row">
+                <div class="col my-auto">
+                    <input type="hidden" name="start_date" value="{{ start_date }}">
+                    <input type="hidden" name="end_date" value="{{ end_date }}">
+                    <button type="submit" class="btn btn-success mt-4">Generate PDF</button>
+                </div>
+            </div>
+        </form>
 
         <table class="table table-bordered">
             <thead class="text-center">
@@ -40,15 +86,15 @@
                     <td>{{ bookinglist[4] }} hari</td>
                     <td>{{ bookinglist[5] }}</td>
                     <td>{{ bookinglist[6] }}</td>
-                    <td>Rp {{ bookinglist[7] }}</td>
-                    <td>Rp {{ bookinglist[8] }}</td>
-                    <td>Rp {{ bookinglist[9] }}</td>
+                    <td>Rp {{ bookinglist[7]|format }}</td>
+                    <td>Rp {{ bookinglist[8]|format }}</td>
+                    <td>Rp {{ bookinglist[9]|format }}</td>
                     <td>{{ bookinglist[10] }}</td>
                 </tr>
                 {% endfor %}
             {% else %}
                 <tr>
-                    <td colspan="10" class="text-center text-danger"><b>Anda belum memiliki transaksi / booking.</b></td>
+                    <td colspan="12" class="text-center text-danger"><b>Anda belum memiliki transaksi / booking.</b></td>
                 </tr>
             {% endif %}
         </table>
