@@ -29,7 +29,8 @@
                 <form action="/booking" class="bg-light p-5 contact-form" method="POST">    
                     <div class="form-group">
                         <label for="tanggalpinjam">Tanggal Pinjam:</label>
-                        <input type="date" class="form-control" id="tanggalpinjam" name="tanggalpinjam" required>
+                        <input type="date" class="form-control" id="tanggalpinjam" name="tanggalpinjam" min="{{ min_date_today }}" max="{{ max_date }}"  required>
+                        <label for="tanggalpinjam" class="text-danger">* Tanggal awal pinjam hanya berlaku untuk booking 1 minggu dari sekarang</label>
                     </div>
 
                     <div class="form-group">
