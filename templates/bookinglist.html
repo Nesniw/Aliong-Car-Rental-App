@@ -26,7 +26,7 @@
                 </div>
                 <div class="col-6">
                     <div class="container bg-info p-4 rounded">
-                        <h4 class="text-light my-auto"><b>Total Pendapatan : Rp {{ total_revenue|format }}</b></h4>
+                        <h4 class="text-light my-auto"><b>Total Pendapatan : Rp {{ total_revenue }}</b></h4>
                     </div>
                 </div>
             </div>
@@ -86,9 +86,9 @@
                     <td>{{ bookinglist[4] }} hari</td>
                     <td>{{ bookinglist[5] }}</td>
                     <td>{{ bookinglist[6] }}</td>
-                    <td>Rp {{ bookinglist[7]|format }}</td>
-                    <td>Rp {{ bookinglist[8]|format }}</td>
-                    <td>Rp {{ bookinglist[9]|format }}</td>
+                    <td>Rp {{ bookinglist[7] }}</td>
+                    <td>Rp {{ bookinglist[8] }}</td>
+                    <td>Rp {{ bookinglist[9] }}</td>
                     <td>{{ bookinglist[10] }}</td>
                 </tr>
                 {% endfor %}

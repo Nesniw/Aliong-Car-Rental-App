@@ -372,10 +372,5 @@ def emailblast():
 
 
 
-def format_currency(value):
-    return "{:,.0f}".format(value).replace(",", ".")
-
-app.jinja_env.filters['format'] = format_currency
-
 if __name__ == '__main__':
     app.run(debug = True)
