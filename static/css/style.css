@@ -221,6 +221,7 @@ button,
 [type="button"],
 [type="reset"],
 [type="submit"] {
+  appearance: button;
   -webkit-appearance: button; }
 
 button:not(:disabled),
@@ -246,6 +247,7 @@ input[type="date"],
 input[type="time"],
 input[type="datetime-local"],
 input[type="month"] {
+  appearance: listbox;
   -webkit-appearance: listbox; }
 
 textarea {
@@ -278,6 +280,7 @@ progress {
 
 [type="search"] {
   outline-offset: -2px;
+  appearance: none;
   -webkit-appearance: none; }
 
 [type="search"]::-webkit-search-decoration {
@@ -9421,6 +9424,7 @@ textarea.form-control {
 .mfp-with-zoom .mfp-container,
 .mfp-with-zoom.mfp-bg {
   opacity: 0;
+  backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   -webkit-transition: all 0.3s ease-out;
   -moz-transition: all 0.3s ease-out;
@@ -9966,6 +9970,29 @@ textarea.form-control {
   color: white; /* Set text color to white or a contrasting color */
 }
 
+.btn-container{
+  display: flex;
+  gap: 1em;
+}
+
+.btn-login{
+  color: white;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.btn-regis{
+  background-color: var(--blue);
+  color: white;
+  text-transform: uppercase;
+  font-weight: 700;
+  transition: all ease-in-out 0.2s;
+}
+.btn-regis:hover {
+  background-color: #1b6cc2;
+  color: white;
+}
+
 /* Adjust the text color and other styles as needed */
 .detail-box {
   color: white;
@@ -9980,4 +10007,12 @@ textarea.form-control {
 
 .grays{
   background-color: whitesmoke;
+}
+
+.sos-icon{
+  transition: all 0.2s ease-in-out;
+}
+
+.sos-icon:hover{
+  background-color: #495057;
 }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 06 Jan 2024 pada 10.19
+-- Waktu pembuatan: 08 Jan 2024 pada 21.45
 -- Versi server: 10.4.21-MariaDB
 -- Versi PHP: 8.0.12
 
@@ -50,8 +50,9 @@ INSERT INTO `booking_mobil` (`id_booking`, `id_mobil`, `username`, `tanggalpinja
 (27, 3, 'jen', '2024-01-02', 1, '2024-01-02', '2024-01-05', 800000, 1500000, 2300000, 'Selesai', 3),
 (28, 4, 'jen', '2024-01-02', 3, '2024-01-04', '2024-01-05', 150000, 500000, 950000, 'Selesai', 1),
 (29, 1, 'Hansen', '2024-01-05', 4, '2024-01-08', '2024-01-05', 900000, 0, 3600000, 'Selesai', -3),
-(30, 3, 'jen', '2024-01-05', 2, '2024-01-06', '0000-00-00', 800000, 0, 0, 'Dipesan', 0),
-(31, 1, 'jen', '2024-01-06', 10, '2024-01-15', '0000-00-00', 900000, 0, 0, 'Dipesan', 0);
+(30, 3, 'jen', '2024-01-05', 2, '2024-01-06', '2024-01-09', 800000, 1500000, 3100000, 'Selesai', 3),
+(31, 1, 'jen', '2024-01-06', 10, '2024-01-15', '0000-00-00', 900000, 0, 0, 'Dipesan', 0),
+(32, 2, 'jen', '2024-01-10', 3, '2024-01-12', '0000-00-00', 1000000, 0, 0, 'Dipesan', 0);
 
 -- --------------------------------------------------------
 
@@ -79,8 +80,8 @@ CREATE TABLE `data_mobil` (
 
 INSERT INTO `data_mobil` (`id_mobil`, `gambar`, `nama_mobil`, `brand_mobil`, `kilometer`, `transmisi`, `kapasitas_mobil`, `jenis_bensin`, `harga`, `deskripsi`, `status`) VALUES
 (1, 'crv.jpg', 'CR-V', 'Honda', 1000, 'Matic', '6 Seat', 'Pertamax', 900000, 'Jadilah yang terdepan dengan SUV andalan terbaru dari Honda, All New Honda CR-V yang kini hadir dalam pilihan mesin hybrid untuk konsumsi bahan bakar lebih hemat dan tenaga powerful.', 'Dipinjam'),
-(2, 'hyundai.jpg', 'Palisade', 'Hyundai', 5000, 'Matic', '6 Seat', 'Pertamax', 1000000, 'The bold, premium look of the new PALISADE commands immediate attention wherever your travels take you.\r\nIt’s a unique look that inspires confident driving and your confidence is well placed: PALISADE’s advanced\r\nsafety features keep you and your loved ones free from danger. PALISADE’s spacious cabin, flexible seating,\r\nand advanced connectivity features make it the perfect getaway family car.', 'Tersedia'),
-(3, 'Xpander.png', 'Xpander Ultimate', 'Mitsubishi', 2000, 'Matic', '6 Seat', 'Pertamax', 800000, 'Ini adalah mobil Xpander keren masih fresh takda cacat. ', 'Dipinjam'),
+(2, 'hyundai.jpg', 'Palisade', 'Hyundai', 5000, 'Matic', '6 Seat', 'Pertamax', 1000000, 'The bold, premium look of the new PALISADE commands immediate attention wherever your travels take you.\r\nIt’s a unique look that inspires confident driving and your confidence is well placed: PALISADE’s advanced\r\nsafety features keep you and your loved ones free from danger. PALISADE’s spacious cabin, flexible seating,\r\nand advanced connectivity features make it the perfect getaway family car.', 'Dipinjam'),
+(3, 'Xpander.png', 'Xpander Ultimate', 'Mitsubishi', 2000, 'Matic', '6 Seat', 'Pertamax', 800000, 'Ini adalah mobil Xpander keren masih fresh takda cacat. ', 'Tersedia'),
 (4, 'yaris.jpeg', 'yaris', 'totoyoyotata', 16050494, 'Manual', '4 Seat', 'Pertalite', 150000, 'pink pig ', 'Tersedia'),
 (5, 'EVO-5-yellow.jpg', 'Lancer Evolution VI', 'Mitsubishi', 9000, 'Manual', '4 Seat', 'Pertamax', 2147483647, 'gud car yes', 'Tersedia'),
 (6, 'image_2023-10-23_230024250.png', 'Retro costume', 'Elegy', 802000000, 'Manual', '4 Seat', 'Pertamax', 2147483647, 'mint condition', 'Tersedia'),
@@ -145,7 +146,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT untuk tabel `booking_mobil`
 --
 ALTER TABLE `booking_mobil`
-  MODIFY `id_booking` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id_booking` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT untuk tabel `data_mobil`
