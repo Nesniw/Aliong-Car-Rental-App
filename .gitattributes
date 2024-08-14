@@ -1,2 +1,3 @@
 *.css linguist-language=text
 *.html linguist-language=text
+*.scss linguist-language=text
