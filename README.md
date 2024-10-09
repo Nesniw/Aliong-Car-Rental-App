@@ -4,20 +4,30 @@
 Aliong Car Rental Application is a web-based platform that enables users to rent vehicles for their transportation needs. 
 Built using Python and JavaScript, this application offers a user-friendly interface for browsing & renting available vehicles for customer, and managing rental operation for admin.
 
-## Features 
-- **Real-time Exchange Rates**: Fetches up-to-date exchange rates from a reliable API.
-- **Multiple Currencies**: Supports conversion between various global currencies.
-- **User-Friendly Interface**: Simple and intuitive design for easy use.
+## Features
+Admin Side :
+- **Car Rental Management**: Add, update, and delete cars data which available to rental.
+- **Car Return Confirmation**: Confirm the returned rented cars from customer.
+- **Booking History Management**: View and filter booking history based on date or with no filter.
+- **Report Generation**: Generate PDF reports summarizing booking data.
+- **Email Blast / Newsletter**: send newsletters or messages to selected customers all at the same time.
+
+Customer Side :
+- **Car Search & Booking**: View and browse available cars to book / rent. The selected car can be booked / rented based on the options available.
+- **Car Return Confirmation**: Confirm the returned rented cars from customer.
+- **Booking History**: View past and upcoming booking history.
 
 ## Technologies Used 
 - **HTML5**: Structure and layout of the app.
 - **CSS3**: Styling and responsive design.
 - **JavaScript**: Dynamic content and interaction.
-- **API**: ExchangeRate-API for fetching conversion rate between currencies.
+- **Python**: Booking / rental process & management logic.
+- **MySQL**: Storing & managing car rental data.
 
 ## Preview 
-![image](https://github.com/Nesniw/Currency-Converter/assets/109383763/efdea948-94c1-4f7c-ab12-e2e2b8b64443)
-
+![Aliongs 1](https://github.com/user-attachments/assets/10c44ed7-6888-4580-ac3d-27987b857710) <br> <br>
+![Aliongs 2](https://github.com/user-attachments/assets/72053532-b874-40e7-82c2-2b5cd4c01c4c) <br> <br>
+![Aliongs 3](https://github.com/user-attachments/assets/13cb9e78-9ead-4fc9-b14c-66d3b58a2000)
 
 ## Installation
 Follow these steps to set up and run the project locally:
@@ -25,24 +35,42 @@ Follow these steps to set up and run the project locally:
 1.  **Clone the Repository:**
 
     ```bash
-    git clone https://github.com/Nesniw/currency-converter.git
-    cd currency-converter
+    git clone https://github.com/Nesniw/Aliong-Car-Rental-App.git
+    cd Aliong-Car-Rental-App
     ```
     
-2. **Setup API Key**
-   
-   To fetch conversion rate data, you need an API key from ExchangeRate-API. Follow these steps: 
-
-   - Go to ExchangeRate-API and sign up for an API key.
-   - Replace YOUR_API_KEY in the script.js file with your actual API key:
+2. **Ensure Python is installed and create virtual env for python project**
    ```bash
-   let api = 'https://v6.exchangerate-api.com/v6/YOUR_API_KEY/latest/USD';
+   python -m venv venv
    ```
-4. **open index.html from your local folder**
+3. **Install flask with every required libraries**
+    ```bash
+    pip install Flask Flask-Mail PyMySQL Jinja2 ReportLab Werkzeug pdfkit
+    ```
+4. **Configure specific settings**
+   - app.py
+   ```bash
+   app.secret_key = YOUR_SECRET_KEY'
 
+   MAIL_USERNAME = 'your_email@example.com'  # User needs to replace this
+   MAIL_PASSWORD = 'your_password'  # User needs to replace this
+   ```
+   - model.py
+   ```bash
+   return pymysql.connect(host="localhost", user="YOUR_USER_NAME", password="YOUR_PASSWORD", database="YOUR_DATABASE_NAME")
+   ```
+5. **Run this command in the terminal**
+   ```bash
+   python -m flask run
+   ```
+   or
+   ```bash
+   flask run
+   ```
+    
 ## Thank You
 
-Thank you for visiting Currencee! 😊
+Thank you for visiting Aliong Car Rental! 😊
 
 By Winsen Wiradinata <br> <br>
 <a href="https://www.linkedin.com/in/winsen-wiradinata/"><img src="https://img.shields.io/badge/-Winsen%20Wiradinata-0077B5?style=flat&logo=Linkedin&logoColor=white"/></a>
